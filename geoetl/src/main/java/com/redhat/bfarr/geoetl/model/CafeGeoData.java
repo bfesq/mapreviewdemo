@@ -37,10 +37,6 @@ public class CafeGeoData {
 	@DataField(pos = 12, required = true)
 	private String Location;
 
-
-    private Double longitude;
-    private Double latitude;
-
     private Date lastUpdate = new Date();
     
     
@@ -97,25 +93,51 @@ public class CafeGeoData {
 
 	public void setLocation(String location) {
 		Location = location;
-		latitude = Double.valueOf(Location.split(",")[0]);
-		longitude = Double.valueOf(Location.split(",")[1]);
 	}
 
 	public Double getLongitude() {
-		return longitude;
+		String l = Location.replace("(", "").replace(")", "").trim();
+		return Double.valueOf(l.split(",")[1]);
 	}
 
-	public void setLongitude(Double longitude) {
-		this.longitude = longitude;
-	}
 
 	public Double getLatitude() {
-		return latitude;
+		String l = Location.replace("(", "").replace(")", "").trim();
+		return Double.valueOf(l.split(",")[0]);
 	}
 
-	public void setLatitude(Double latitude) {
-		this.latitude = latitude;
+	public int getCensus_year() {
+		return Census_year;
 	}
+
+	public void setCensus_year(int census_year) {
+		Census_year = census_year;
+	}
+
+	public String getIndustry_code() {
+		return Industry_code;
+	}
+
+	public void setIndustry_code(String industry_code) {
+		Industry_code = industry_code;
+	}
+
+	public String getSeating_type() {
+		return Seating_type;
+	}
+
+	public void setSeating_type(String seating_type) {
+		Seating_type = seating_type;
+	}
+
+	public int getNumber_of_seats() {
+		return Number_of_seats;
+	}
+
+	public void setNumber_of_seats(int number_of_seats) {
+		Number_of_seats = number_of_seats;
+	}
+
 
 	
 	

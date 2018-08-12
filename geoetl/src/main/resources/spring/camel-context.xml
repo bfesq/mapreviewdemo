@@ -1,46 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd        http://camel.apache.org/schema/spring       http://camel.apache.org/schema/spring/camel-spring.xsd">
-   
-   <bean id="csvBindyDataformat" class="org.apache.camel.dataformat.bindy.csv.BindyCsvDataFormat">
-    <constructor-arg value="com.redhat.bfarr.geoetl.model.CafeGeoData"/>
-  </bean>
-  
-  <bean id="sqlComponent" class="org.apache.camel.component.sql.SqlComponent">
-		<property name="dataSource" ref="dataSource" />
-	</bean>
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
-		destroy-method="close" scope="singleton">
-		<property name="driverClassName" value="org.postgresql.Driver" />
-		<property name="url" value="jdbc:hsqldb:mem:avc" />
-		
-		<property name="url" value="jdbc:postgresql://geo-postgresql:5432/geo" /> 
-		<property name="username" value="user" />
-		<property name="password" value="pass" />
-
-	</bean>
-	
-    
+    <bean
+        class="org.apache.camel.dataformat.bindy.csv.BindyCsvDataFormat" id="csvBindyDataformat">
+        <constructor-arg value="com.redhat.bfarr.geoetl.model.CafeGeoData"/>
+    </bean>
+    <bean class="org.apache.camel.component.sql.SqlComponent" id="sqlComponent">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean class="org.apache.commons.dbcp.BasicDataSource"
+        destroy-method="close" id="dataSource" scope="singleton">
+        <property name="driverClassName" value="org.postgresql.Driver"/>
+        <property name="url" value="jdbc:postgresql://geo-postgresql:5432/geo"/>
+        <property name="username" value="user"/>
+        <property name="password" value="pass"/>
+    </bean>
+    <bean class="com.redhat.bfarr.geoetl.ModelToMap" id="modelToMap"/>
     <camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
-    
-    <!-- use Camel property placeholder loaded from the given file -->
-		<propertyPlaceholder id="placeholder" location="classpath:sql.properties" />
-		
+        <!-- use Camel property placeholder loaded from the given file -->
+        <propertyPlaceholder id="placeholder" location="classpath:sql.properties"/>
         <route id="_route1">
-            <from id="_from1" uri="file:/Users/bfarr/projects/demo-standard/cafeui/initialdataload?noop=true"/>
-             <unmarshal ref="csvBindyDataformat"/>
-             <split>
-      			<simple>body</simple>
-		      	<to uri="direct:update"/>
-		    </split>
+            <from id="_from1" uri="timer://foo?repeatCount=1"/>
+            <to id="_to1" uri="http4://cafe-review-cafe.192.168.99.100.nip.io/initialdataload/Cafe__restaurant__bistro_seats_2015_map-2.csv"/>
+            <unmarshal id="_unmarshal1" ref="csvBindyDataformat"/>
+            <split id="_split1">
+                <simple>body</simple>
+                <to id="_to2" uri="direct:update"/>
+            </split>
         </route>
-        
         <route id="_route2">
-        	<from uri="direct:update" />
-        	<log id="_log2" message="Unmarshall ${body}"/>
-			<to uri="sqlComponent:{{sql.insertNew}}?batch=true" />
+            <from id="_from2" uri="direct:update"/>
+            <log id="_log2" message="Unmarshall ${body}"/>
+            <bean id="_bean1" method="processCafeGeoData" ref="modelToMap"/>
+            <log id="_log2" message="Map ${body}"/>
+            <to id="_to3" uri="sqlComponent:{{sql.insertNew}}?batch=true"/>
         </route>
     </camelContext>
-    
-    
 </beans>
