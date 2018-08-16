@@ -13,7 +13,7 @@ public interface ReviewDao extends CrudRepository<Review, String> {
 	
 	// Basic query for now presume lon and lat sorted
 	@Query("select c from Review c where c.geoId = :geoId order by dateReviewed desc")
-	List<Review> findCafeReviews(@Param("geoId") String geoId);
+	List<Review> findReviews(@Param("geoId") String geoId);
 	
 	@Query("select avg(c.starRating) from Review c where c.geoId = :geoId ")
 	Double findAvgRating(@Param("geoId") String geoId);

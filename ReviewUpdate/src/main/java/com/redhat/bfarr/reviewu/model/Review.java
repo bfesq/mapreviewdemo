@@ -7,17 +7,21 @@ import javax.validation.constraints.Size;
 
 
 
+
 @Entity
 @Table(name = "review")
 public class Review {
 	@Id
+	@SequenceGenerator(name="pk_sequence",sequenceName="review_id_seq", allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="pk_sequence")
+	@Column(name="id", unique=true, nullable=false)
     private String id;
 	
 	private String geoId;
 	
 	private Date dateReviewed;
 	
-	private Integer starRating;
+	private Integer rating;
 	
 	@Size(min = 1, max = 2048)
     private String description;
@@ -54,12 +58,12 @@ public class Review {
 		this.dateReviewed = dateReviewed;
 	}
 
-	public Integer getStarRating() {
-		return starRating;
+	public Integer getRating() {
+		return rating;
 	}
 
-	public void setStarRating(Integer starRating) {
-		this.starRating = starRating;
+	public void setRating(Integer rating) {
+		this.rating = rating;
 	}
 
 	public String getDescription() {
@@ -88,7 +92,7 @@ public class Review {
 
 	@Override
 	public String toString() {
-		return "CafeReview [id=" + id + ", dateReviewed=" + dateReviewed + ", starRating=" + starRating
+		return "CafeReview [id=" + id + ", dateReviewed=" + dateReviewed + ", rating=" + rating
 				+ ", description=" + description + ", name=" + name + "]";
 	}
 	

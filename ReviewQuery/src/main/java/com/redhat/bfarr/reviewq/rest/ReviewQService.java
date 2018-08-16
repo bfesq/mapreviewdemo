@@ -22,15 +22,15 @@ import java.util.ArrayList;
 public class ReviewQService {
 	
 	@Autowired
-	ReviewDao cafeReviewDao;
+	ReviewDao reviewDao;
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/", produces = "application/json")
     @GET()
     @Path("/review")
     @Produces("application/json")
-    public List<Review> getReviews(@RequestParam("cafeid") @QueryParam("cafeid") String cafeid) {
+    public List<Review> getReviews(@RequestParam("geoid") @QueryParam("geoid") String geoid) {
 		List<Review> list = new ArrayList<>();
-		cafeReviewDao.findCafeReviews(cafeid).forEach(e -> list.add(e));
+		reviewDao.findReviews(geoid).forEach(e -> list.add(e));
 		return list;
     }
 
@@ -38,8 +38,8 @@ public class ReviewQService {
     @GET()
     @Path("/avg")
     @Produces("application/json")
-    public Double avgRating(@RequestParam("cafeid") @QueryParam("cafeid") String cafeId) {
-    	return cafeReviewDao.findAvgRating(cafeId);
+    public Double avgRating(@RequestParam("geoid") @QueryParam("geoid") String geoId) {
+    	return reviewDao.findAvgRating(geoId);
     }
 
 }

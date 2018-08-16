@@ -17,7 +17,7 @@ public class Review {
 	
 	private Date dateReviewed;
 	
-	private Integer starRating;
+	private Integer rating;
 	
 	@Size(min = 1, max = 2048)
     private String description;
@@ -38,12 +38,12 @@ public class Review {
 
 	
 	
-	public String getCafeId() {
+	public String getGeoId() {
 		return geoId;
 	}
 
-	public void setCafeId(String cafeId) {
-		this.geoId = cafeId;
+	public void setGeoId(String geoId) {
+		this.geoId = geoId;
 	}
 
 	public Date getDateReviewed() {
@@ -54,12 +54,12 @@ public class Review {
 		this.dateReviewed = dateReviewed;
 	}
 
-	public Integer getStarRating() {
-		return starRating;
+	public Integer getRating() {
+		return rating;
 	}
 
-	public void setStarRating(Integer starRating) {
-		this.starRating = starRating;
+	public void setStarRating(Integer rating) {
+		this.rating = rating;
 	}
 
 	public String getDescription() {
@@ -88,7 +88,7 @@ public class Review {
 
 	@Override
 	public String toString() {
-		return "CafeReview [id=" + id + ", dateReviewed=" + dateReviewed + ", starRating=" + starRating
+		return "CafeReview [id=" + id + ", dateReviewed=" + dateReviewed + ", rating=" + rating
 				+ ", description=" + description + ", name=" + name + "]";
 	}
 	
