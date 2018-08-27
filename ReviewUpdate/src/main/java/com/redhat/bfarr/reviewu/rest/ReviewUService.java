@@ -38,11 +38,14 @@ public class ReviewUService {
 		Review review = new Review();
 		review.setDateReviewed(new Date());
 		review.setGeoId(geoId);
-		review.setDescription(rrg.getDescription());
-		review.setName(rrg.getName());
-		review.setRating(rrg.getRating());
-		review.setEmail("");
+		int rating = rrg.getRating();
 		
+		review.setDescription(rrg.getDescription(rating));
+		String name = rrg.getName();
+		review.setName(name);
+		review.setRating(rating);
+		review.setEmail(name + "@example.com");
+		System.out.println(review.toString());
 		return reviewDao.save(review);
 		
     }

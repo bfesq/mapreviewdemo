@@ -15,7 +15,7 @@ public class Review {
 	@SequenceGenerator(name="pk_sequence",sequenceName="review_id_seq", allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="pk_sequence")
 	@Column(name="id", unique=true, nullable=false)
-    private String id;
+    private Integer id;
 	
 	private String geoId;
 	
@@ -23,7 +23,7 @@ public class Review {
 	
 	private Integer rating;
 	
-	@Size(min = 1, max = 2048)
+	@Size(min = 1, max = 512)
     private String description;
 	
 	@Size(min = 1, max = 256)
@@ -32,11 +32,11 @@ public class Review {
 	@Size(min = 1, max = 512)
     private String email;
 	
-	public String getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -92,9 +92,10 @@ public class Review {
 
 	@Override
 	public String toString() {
-		return "CafeReview [id=" + id + ", dateReviewed=" + dateReviewed + ", rating=" + rating
-				+ ", description=" + description + ", name=" + name + "]";
+		return "Review [id=" + id + ", geoId=" + geoId + ", dateReviewed=" + dateReviewed + ", rating=" + rating
+				+ ", description=" + description + ", name=" + name + ", email=" + email + "]";
 	}
+
 	
 	
 }

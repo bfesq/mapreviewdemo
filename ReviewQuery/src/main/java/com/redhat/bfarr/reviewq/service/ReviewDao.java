@@ -15,6 +15,6 @@ public interface ReviewDao extends CrudRepository<Review, String> {
 	@Query("select c from Review c where c.geoId = :geoId order by dateReviewed desc")
 	List<Review> findReviews(@Param("geoId") String geoId);
 	
-	@Query("select avg(c.starRating) from Review c where c.geoId = :geoId ")
+	@Query("select avg(c.rating) from Review c where c.geoId = :geoId ")
 	Double findAvgRating(@Param("geoId") String geoId);
 }

@@ -46,6 +46,27 @@ public class GeoService {
 		return list;
     }
 
+	@RequestMapping(method = RequestMethod.GET, value = "/searchall", produces = "application/json")
+    @GET()
+    @Path("/searchall")
+    @Produces("application/json")
+    public List<GeoData> searchAll(@RequestParam("type") @QueryParam("type") String type, @RequestParam("searchterm") @QueryParam("searchterm") String searchterm) {
+		List<GeoData> list = new ArrayList<>();
+		if (searchterm == null || searchterm.trim().isEmpty()) {
+			geoDao.findAllByType(type).forEach(e -> list.add(e));
+		} else {
+			String[] terms = searchterm.trim().split(" ");
+			StringBuilder sb = new StringBuilder();
+			sb.append(terms[0]);
+			for (int i = 1; i < terms.length; i ++) {
+				sb.append(" & ").append(terms[i]);
+			}
+			
+			geoDao.searchAllByType(type, sb.toString()).forEach(e -> list.add(e));
+		}
+		return list;
+    }
+	
     @RequestMapping(method = RequestMethod.GET, value = "/within", produces = "application/json")
     @GET()
     @Path("/within")

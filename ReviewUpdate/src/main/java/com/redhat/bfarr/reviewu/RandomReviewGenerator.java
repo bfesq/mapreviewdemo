@@ -3,14 +3,17 @@ package com.redhat.bfarr.reviewu;
 import java.util.Random;
 
 public class RandomReviewGenerator {
+	private Random random = new Random();
 	public static String[] descriptions = new String[] {
-			"Really friendly helpful staff. ",
-			"Great coffee. Yummy good. Incredible people!",
-			"Great cafe with lots of space and lovely service. ",
-			"Service not most attentive",
-			"Was ok",
-			"Happy to find this gem!",
-			"Amazing, really love this place!"
+			"3:Really friendly helpful staff. ",
+			"5:Great coffee. Yummy good. Incredible people!",
+			"4:Great cafe with lots of space and lovely service. ",
+			"1:Service not most attentive",
+			"3:Was ok",
+			"5:Happy to find this gem!",
+			"2:Coffee was ok, but didnt like the service",
+			"3:Good food, coffee average",
+			"4:Great place"
 	};
 	
 	public static String[] names = new String[] {
@@ -84,21 +87,28 @@ public class RandomReviewGenerator {
 
 	};
 	
-	public String getDescription() {
-		Random random = new Random();
+	public String getDescription(Integer rating) {
 		int i = random.nextInt(this.descriptions.length);
-		return descriptions[i];
+		String description = descriptions[i].split(":")[1];
+		if (rating <= 5 && rating >= 0) {
+			int val = -1;
+			while (rating != val) {
+				i = random.nextInt(this.descriptions.length);
+				description = descriptions[i].split(":")[1];
+				val = Integer.valueOf(descriptions[i].split(":")[0]);
+			}
+		}
+		return description;
 	}
 	
 	public String getName() {
-		Random random = new Random();
 		int i = random.nextInt(this.names.length);
 		return names[i];
 	}
 	
 	public Integer getRating() {
-		Random random = new Random();
-		int i = random.nextInt(5);
+
+		int i = random.nextInt(5) + 1;
 		return i;
 	}
 }
