@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.redhat.bfarr.reviewu.RandomReviewGenerator;
@@ -50,18 +51,31 @@ public class ReviewUService {
 		
     }
 	
-	
-	@RequestMapping(method = RequestMethod.GET, value = "/update", produces = "application/json")
+	@RequestMapping(method = RequestMethod.POST, value = "/update2")
     @POST()
+	@Path("/update2")
+    public void addReview(@RequestBody String s) {
+		System.out.println("Review received update 2 : " + s);
+
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/update", produces = "application/json")
+    @POST()
+	@Path("/update")
     @Produces("application/json")
 	@Consumes("application/json")
-    public Review addReview(Review review) {
-		
+    public Review addReview(@RequestBody Review review) {
+		System.out.println("Review received : " + review.toString());
 		// Validate data
 		
 		// Send an email to jms queue
-
-		return reviewDao.save(review);
+		if (review.getDescription() != null) {
+			review.setDescription(review.getDescription().trim());
+		}
+		Review result = reviewDao.save(review);
+		System.out.println("Review received : " + result.toString());
+		
+		return result;
     }
 
 

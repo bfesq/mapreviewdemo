@@ -1,10 +1,12 @@
 package com.redhat.bfarr.reviewu.model;
 
 import java.util.Date;
+import java.util.Map;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-
+import org.springframework.boot.json.BasicJsonParser;
+import org.springframework.boot.json.JsonParser;
 
 
 
@@ -31,6 +33,24 @@ public class Review {
 
 	@Size(min = 1, max = 512)
     private String email;
+	
+	
+	public Review() {
+
+	}
+
+	public Review(String json) {
+		System.out.println("Json received :" + json);
+		JsonParser jsonParser = new BasicJsonParser();
+        Map<String, Object> jsonMap = jsonParser.parseMap(json);
+        System.out.println("json Map = " + jsonMap.toString());
+        for (String key : jsonMap.keySet()) {
+        	System.out.println("key = " + key);
+        }
+        for (Object val : jsonMap.values()) {
+        	System.out.println("val = " + val);
+        }
+	}
 	
 	public Integer getId() {
 		return id;
