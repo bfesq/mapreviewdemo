@@ -1,0 +1,3 @@
+oc new-app postgresql-persistent -e POSTGRESQL_USER=user -e POSTGRESQL_PASSWORD=pass -e POSTGRESQL_DATABASE=cafe
+
+mvn spring-boot:run -DDB_HOST=localhost -DDB_PORT=5432 -DDB_SCHEMA=db -DDB_USER=user -DPASSWORD=pass

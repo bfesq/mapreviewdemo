@@ -39,7 +39,11 @@ public class ReviewQService {
     @Path("/avg")
     @Produces("application/json")
     public Double avgRating(@RequestParam("geoid") @QueryParam("geoid") String geoId) {
-    	return reviewDao.findAvgRating(geoId);
+    	Double val = reviewDao.findAvgRating(geoId);
+    	if (val == null) {
+    		val = 0.0;
+    	} 
+    	return val;
     }
 
 }
